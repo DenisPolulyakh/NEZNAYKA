@@ -1,0 +1,12 @@
+{
+	"name":"it-support-bot",
+	"version":"0.0.1",
+	"description": "Support",
+	"mail": "app.js",
+	"dependencies":{
+		"express":"^4.x.x",
+		"body-parser":"^1.x.x",
+		"request":"2.56.x"
+	}
+
+}

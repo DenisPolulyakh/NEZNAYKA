@@ -1,172 +1,69 @@
-// We're using the slack-client library
-var SlackClient = require('slack-client');
+var express=require('express');
+var bodyParser=require('body-parser');
 
-// Automatically reconnect after an error response from Slack.
-var autoReconnect = true;
+var app=express();
+var port=process.env.PORT||1337;
 
-// Put your bot API token here
-var token = "YOUR TOKEN HERE";
+app.use(bodyParser.urlencoded({extended: true}));
 
-// Put your slack team name here
-// We'll use this when piecing together our API call
-var team = "YOUR TEAM HERE";
+app.get('/',function(req,res){res.status(200).send('Hello World!'); });
 
-var slackClient = new SlackClient(token, autoReconnect);
- 
-// Track bot user, for detecting the bot's own messages
-var bot;
-
-// We'll define our own custom API call to get channel history
-// See the note for step 10 above
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
-var getChannelHistory = function() {
-  this.get = function(family, value, callback) {
-  var xhr = new XMLHttpRequest();
-  // This builds the actual structure of the API call using our provided variables
-  var url = "https://" + team + ".slack.com/api/" + family + ".history?token=" + token + "&channel=" + value;
-  xhr.onreadystatechange = function() { 
-    if (xhr.readyState == 4 && xhr.status == 200)
-      callback(xhr.responseText);
-    }
-    xhr.open("GET", url, true); 
-    xhr.send();
-  }
-}
-
-// Tell us when the app is running
-slackClient.on('loggedIn', function(user, team) {
-  bot = user;
-  console.log("Logged in as " + user.name
-    + " of " + team.name + ", but not yet connected");
+app.listen(port, function(){
+	console.log('Listen on port ' + port);
 });
 
-slackClient.on('open', function() {
+app.post('/hello',function(req, res, next){
+	var greeting=["Привет","Здравствуйте","HI","Bonjour","Hola","Салют"];
+	var userName=req.body.user_name;
+	var userMsg=req.body.text;
+	
+	var alert=null;
+	if((!userName.localeCompare("rdenisov")==0)&&(!userName.localeCompare("alinnik")==0)&&(!userName.localeCompare("anton")==0)){
 
-  // Find out which public channels the bot is a member of
-  var botChannels = Object.keys(slackClient.channels)
-    .map(function (k) { return slackClient.channels[k]; })
-    .filter(function (c) { return c.is_member; })
-    .map(function (c) { return c.name; });
+		/*Поиск номера телефона в сообщении*/
+		var number=null;
+		if((userMsg.match(/9\d{9}/)!=null && userMsg.match(/9\d{10}/)==null)&&(userMsg.match(/[09,19,29,39,49,59,69,99]\d{10}/)==null)){
+			number = userMsg.match(/9\d{9}/);
+				
+			/* Выбор алгоритма расчета кода */
+			var userMsg_low=userMsg.toLowerCase();
+			var find = userMsg_low.match(/поиск/);
 
-  // Find out which private channels the bot is a member of
-  var botGroups = Object.keys(slackClient.groups)
-    .map(function (k) { return slackClient.groups[k]; })
-    .filter(function (g) { return g.is_open && !g.is_archived; })
-    .map(function (g) { return g.name; });
- 
-  // Tell us when the bot is connected
-  console.log('Connected as ' + slackClient.self.name + ' of ' + slackClient.team.name);
- 
-  // Print our list of channels and groups 
-  // that we found above in the console
-  if (botChannels.length > 0) {
-    console.log('You are in these public channels: ' + botChannels.join(', '));
-  } else {
-    console.log('You are not in any public channels.');
-  }
- 
-  if (botGroups.length > 0) {
-     console.log('You are in these private channels: ' + botGroups.join(', '));
-  } else {
-    console.log('You are not in any private channels.');
-  }
+			var str12345 = number/12345;
+			var code =  Math.floor(str12345*1000);
+			var responceMsg;	
+			if(find!=null){	//поиск карты по номеру телефона
+				var day = (new Date()).getDay();
+				if(day==0){
+					day+=7;
+				}
+				code = code*day;
+				responceMsg="для поиска карты";
+			}else{	//код подтвержения телефона
+				//код остается изначальным
+				responceMsg="активации карты"
+			}
+			code = code+'';
+			code = code.substr(code.length-3,code.length);
+			var botPayload={
+					text: ''+greeting[getRandomInt(0,5)]+' *'+ userName + '*! Код '+responceMsg+' для телефона ' + number + ': *'+code+'*'
+				};
+			
+			if(userName!=='slackbot'){
+				setTimeout(sendMsg,20000);
+			} else {
+				return res.status(200).end();
+			}
+			function sendMsg(){
+				return res.status(200).json(botPayload);
+			}
+		}
+	}
+
+	function getRandomInt(min, max){
+	  return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+
+
 });
-
-// What to do when a message is posted 
-// to one of the bot's channels--
-// This is the real meat of our app
-slackClient.on('message', function(message) {
-  // Ignore the bot's own messages
-  if (message.user == bot.id) return;
- 
-  // Get the current channel, 
-  // so we know where to post messages to later
-  var channel = slackClient.getChannelGroupOrDMByID(message.channel);
-
-  // We're wrapping our functionality in an IF statement
-  // to only respond to messages directed at this bot
-  if (message.type === 'message' && message.text.length >= 0 && message.text.indexOf(slackClient.self.id) > -1) { 
-    // Take the message that was sent to the bot
-    // And split off just the relevant bit
-    // See the note for step 5 above
-    searchString = message.text.split(" ").pop();
-
-    // Print out the name of the channel the bot is analyzing
-    console.log("Attempting to query channel: " + searchString);
-    
-    // Retrieve the requested channel object
-    // using functions from the slack-client library
-    var myChannel = slackClient.getChannelGroupOrDMByName(searchString);
-
-    // Check to verify if we've returned a valid channel
-    if (typeof myChannel != "undefined") {      
-      // Get the channel ID from the channel object
-      var myChannelID = myChannel['id'];
-
-      // Determine whether this is a public 
-      // or private channel (i.e., group)
-      // by looking at the data in the channel object
-      if (myChannel.getType() == 'Group') {
-        family = "groups";
-      } else {
-        family = "channels";
-      };
-
-      // Get the message history for the channel
-      // using our custom API call
-      history = new getChannelHistory();
-      history.get(family, myChannelID, function(response) {
-        // Now that we have our messages, 
-        // let's parse them to make them readable
-        json = JSON.parse(response);
-
-        // The history object had a few children, 
-        // so we're just pulling out the "messages" child
-        mymessages = json['messages'];
-
-        // Create an array to hold our filtered list of messages
-        var unresolved = [];
-
-        // Filter for messages that don't have reactions
-        for (var i = 0; mymessages.length > i; i++) {
-          // For each message, get the reactions (if any)
-          var msgStatus = mymessages[i]['reactions'];
-
-          // If the message has no reactions...
-          if (typeof msgStatus == "undefined") {
-            // ...add the message to our array
-            unresolved.push(mymessages[i].text);
-          }
-        };
-
-        // Once we've finished looping through all the messages
-        // count how many didn't have reactions, for logging
-        var myCount = unresolved.length;
-
-        // Combine our array of unresolved messages into one line
-        // so the bot can send just one message to slack
-        var list = unresolved.join("\n");
-
-        // Print out our final, single message to slack
-        channel.send("Your Unresolved Items: \n" + list);
-
-        // Print to the console that the query was successful,
-        // and how many unresolved messages were found
-        console.log("Query successful! Returned " + myCount + " items")
-      });
-
-    // If the message to the bot is formatted wrong, then do this:
-    } else {
-      // Tell the user how to format their request correctly
-      channel.send("I'm sorry, I don't understand. I need you to end your sentence with a valid channel name of which I am a member.");
-
-      // Also print to the console that the query failed, and give some helpful pointers
-      console.log("Query FAILED.");
-      console.log("Did your sentence end with a valid channel name?");
-      console.log("Have you invited TaskBot to join the requested channel?");
-    }
-  }; 
-});
-
-slackClient.login();
