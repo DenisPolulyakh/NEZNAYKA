@@ -3,22 +3,22 @@ package com.neznayka.www.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Денис on 18.03.2017.
+ */
+public class DictionaryData {
+    int id;
+    List<String> tags;
+    String message;
 
-public class DictionaryMap {
-    private int id;
-    private List<String> tags;
-    private String message;
 
-    public DictionaryMap() {
+    public DictionaryData() {
     }
 
-    public DictionaryMap(ArrayList tags, String message) {
+    public DictionaryData(int id, List tags, String message) {
+        this.id = id;
         this.tags = tags;
         this.message = message;
-    }
-
-    public List<String> getTags() {
-        return tags;
     }
 
     public int getId() {
@@ -29,8 +29,11 @@ public class DictionaryMap {
         this.id = id;
     }
 
-    public void setTags(List<String> tags) {
+    public List<String> getTags() {
+        return tags;
+    }
 
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 

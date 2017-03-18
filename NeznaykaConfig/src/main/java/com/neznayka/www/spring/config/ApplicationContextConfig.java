@@ -1,5 +1,11 @@
 package com.neznayka.www.spring.config;
 
+import com.neznayka.www.dao.config.ConfigDAO;
+import com.neznayka.www.dao.config.ConfigDAOStubImpl;
+import com.neznayka.www.dao.config.ConfigDictionaryDAOImpl;
+import com.neznayka.www.dao.config.ConfigDictionaryDAOIntf;
+import com.neznayka.www.hibernate.Tag;
+import com.neznayka.www.hibernate.Message;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +60,17 @@ public class ApplicationContextConfig {
 
 
     }
-
-    /*@Bean(name = "message")
-    public Message getMessage() {
-        return new Message();
+    @Bean(name = "ConfigDAOStub")
+    public ConfigDAO getConfigDAO() {
+        return new ConfigDAOStubImpl();
     }
 
-    @Bean(name = "botProcess")
+    @Bean(name = "ConfigDAO")
+    public ConfigDictionaryDAOIntf getConfigDictionaryDAO() {
+        return new ConfigDictionaryDAOImpl();
+    }
+
+    /*@Bean(name = "botProcess")
     public BotProcess getBotProcess() {
         return new BotProcess();
     }
@@ -115,7 +125,7 @@ public class ApplicationContextConfig {
 
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 
-       // sessionBuilder.addAnnotatedClasses(KeyQuestion.class, ValueAnswer.class, MemoryProcessTable.class);
+        sessionBuilder.addAnnotatedClasses(Tag.class, Message.class);
 
         sessionBuilder.setProperty("hibernate.hbm2ddl.auto", "update");
         sessionBuilder.setProperty("hibernate.show_sql", "true");
