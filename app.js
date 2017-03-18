@@ -1,5 +1,7 @@
 var Botkit = require('botkit');
 
+var http = require('http');
+
 var controller = Botkit.slackbot({
   debug: false
   //include "log: false" to disable logging
@@ -18,14 +20,32 @@ function getJSONProperty(bodyJson, property) {
     }
 }
 
+function cutString(strStart,strStop, text) {
+        var s=text.indexOf(strStart);
+        var e=text.indexOf(strStop)+strStop.length;
+        if(s==-1||e==-1) {return text;}
+        textId = text.substr(s,e);
+        console.log(textId);
+        text = text.replace(textId,'').trim();
+        return text;
+}
+
 // give the bot something to listen for.
 controller.hears('',['direct_message','direct_mention','mention'],function(bot,message) {
-	console.log(message.text);
-  	var request = require('request');
-	var address = 'https://neznayka-front-controller.herokuapp.com/getAnswer?message=' + encodeURIComponent(message);
-        request.get(address, function (error, response, body) {
-           bot.reply(message,body);
-
-        });  
+    var text = cutString("<at id=","</at>",message.text);
+    var messageToService = JSON.stringify({ text: text  ,timestamp:message.timestamp,address:message.address });
+	  console.log(messageToService);
+    var request = require('request');
+	  var address = 'https://neznayka-front-controller.herokuapp.com/getAnswer?message=' + encodeURIComponent(messageToService);
+    request.get(address, function (error, response, body) {
+        bot.reply(message,body);
+    });  
 });
+
+http.createServer(function (request, response) {
+
+    console.log('server');
+    
+
+ }).listen(process.env.PORT || 5000);
 
