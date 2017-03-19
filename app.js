@@ -34,11 +34,12 @@ function cutString(strStart,strStop, text) {
 controller.hears('',['direct_message','direct_mention','mention'],function(bot,message) {
     var text = cutString("<at id=","</at>",message.text);
     var messageToService = JSON.stringify({ text: text  ,timestamp:message.timestamp,address:message.address });
-	  console.log(messageToService);
+	console.log(messageToService);
     var request = require('request');
-	  var address = 'https://neznayka-front-controller.herokuapp.com/getAnswer?message=' + encodeURIComponent(messageToService);
+	var address = 'https://neznayka-front-controller.herokuapp.com/getAnswer?message=' + encodeURIComponent(messageToService);
     request.get(address, function (error, response, body) {
-        bot.reply(message,body);
+        var phrases = getJSONProperty(body, 'phrase');
+        bot.reply(message,phrases);
     });  
 });
 
