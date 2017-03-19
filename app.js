@@ -39,7 +39,8 @@ controller.hears('',['direct_message','direct_mention','mention'],function(bot,m
 	var address = 'https://neznayka-front-controller.herokuapp.com/getAnswer?message=' + encodeURIComponent(messageToService);
     request.get(address, function (error, response, body) {
         var phrases = getJSONProperty(body, 'phrase');
-        bot.reply(message,phrases);
+        console.log(phrases);
+        bot.reply(message,phrases[0]);
     });  
 });
 
