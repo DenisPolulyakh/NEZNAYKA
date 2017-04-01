@@ -21,7 +21,7 @@ export class DictionaryListComponent implements OnInit {
 
   public currentPage:number = 1;
   public totalItems:number = 0; // total numbar of page not items
-  public maxSize:number = 2; // max page size
+  public maxSize:number = 10; // max page size
 
   public options = {
     timeOut: 5000,
@@ -140,7 +140,6 @@ export class DictionaryListComponent implements OnInit {
           ))
         },
         err => {
-          debugger
           this.loadingList = false;
           this._notificationsService.error(
             'Ошибка',

@@ -1,0 +1,32 @@
+<h1>{{title}}</h1>
+
+<div class="block no-padding">
+
+  <div class="col-sm-8 col-sm-offset-2">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Токен</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control">
+        </div>
+      </div>
+    </form>
+
+    <div class="soc col-sm-10 col-sm-offset-2" style="display: flex">
+      <i class="fa fa-skype"></i>
+      <i class="fa fa-slack"></i>
+      <i class="fa fa-facebook"></i>
+      <i class="fa fa-telegram"></i>
+    </div>
+    <div class="clearfix"></div>
+
+    <button class="btn btn-primary pull-right" (click)="add()">Добавить</button>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<simple-notifications
+  [options]="options"
+>
+</simple-notifications>

@@ -36,6 +36,7 @@ a {
 @import 'bootstrap-grid.css';
 @import 'bootstrap-pagination.css';
 @import 'css/font-awesome.min.css';
+@import 'animate.css';
 
 //@import 'bootstrap4.css';
 
@@ -46,4 +47,9 @@ h1, h2, h3{
 
 hr{
   border-top: 1px solid #d8d7d7;
+}
+
+.block {
+  margin-top: 5px;
+  padding: 20px;
 }

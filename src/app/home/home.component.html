@@ -1,2 +1,89 @@
-<p>
-</p>
+<section class="hero">
+  <div class="container">
+    <h1>Neznayka отвечает!</h1>
+
+    <div class="user-name">
+      <img [src]="'../img/avatar.png'"/>
+      <span>Привет, Admin</span>
+    </div>
+    <br>
+    <div class="clearfix">
+      <a class="btn btn-success" [routerLink]="['settings']" [routerLinkActive]="['active']">
+        Личный кабинет
+      </a>
+    </div>
+    <br><br>
+
+  </div>
+</section>
+
+<section class="description">
+  <div class="container">
+    <h2>Боты для популярных мессенджеров</h2>
+    <h2 class="icons-soc">
+      <i class="fa fa-skype active"></i>
+      <i class="fa fa-slack active"></i>
+      <i class="fa fa-facebook"></i>
+      <i class="fa fa-telegram"></i>
+    </h2>
+  </div>
+</section>
+
+<div class="example-chat">
+  <div class="container">
+    <h2 class="text-center">Пример использования</h2><br>
+
+    <div class="col-sm-4"><b>Плагнин курса валют</b></div>
+    <div class="col-sm-4"><b>Незнайка</b></div>
+    <div class="col-sm-4"><b>Новый плагин</b></div>
+
+    <div class="clearfix"></div>
+    <div class="items">
+
+      <div class="col-md-4 item wow slideInUp" data-wow-delay="0.6s">
+        <img [src]="'../img/avatar_chat.png'"/>
+        <span>Vincent 10:12 AM, Today</span>
+        <div class="question">
+          Курс доллара на сегодня
+        </div>
+        <span class="pull-right">10:14 AM, Today Neznayka</span>
+        <div class="answer">
+          Курс доллара на сегодня 30.00р. Шутка
+        </div>
+      </div>
+
+      <div class="col-md-4 item wow slideInUp" data-wow-delay="0.6s">
+        <img [src]="'../img/avatar_chat.png'"/>
+        <span>Vincent 10:12 AM, Today</span>
+        <div class="question">
+          Телефон главбуха
+        </div>
+        <span class="pull-right">10:14 AM, Today Neznayka</span>
+        <div class="answer">
+          Инна Петросяновна: +7 927 158 1111. Звонить после 7
+        </div>
+      </div>
+
+      <div class="col-md-4 item wow slideInUp" data-wow-delay="0.6s">
+        <img [src]="'../img/avatar_chat.png'"/>
+        <span>Vincent 10:12 AM, Today</span>
+        <div class="question">
+          Новые тарифы Ростелеком
+        </div>
+        <span class="pull-right">10:14 AM, Today Neznayka</span>
+        <div class="answer">
+          Тариф «"Основной 4" 70 Мбит/с в комплекте с ТВ (акция «Два Интернета») в комплекте 2в1» - 460 руб./мес.
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+<section class="footer">
+  <div class="container">
+    © Все права защищены
+  </div>
+</section>

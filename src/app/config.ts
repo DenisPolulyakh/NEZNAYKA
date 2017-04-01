@@ -1,1 +1,1 @@
-export const API_URL = 'http://100.72.40.142:9999/NeznaykaConfig'
+export const API_URL = 'https://cleverfrankbotmind.herokuapp.com'

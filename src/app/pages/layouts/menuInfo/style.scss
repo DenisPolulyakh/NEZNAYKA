@@ -3,10 +3,25 @@ header {
   background-color: #4c84b0;
   border-bottom: 1px solid #3d6ba0;
   min-width: 980px;
-  padding: 10px 0;
+  padding: 5px 0;
   .container {
-    .logo{
+    display: flex;
+    justify-content: space-between;
+    .logo-mini{
+      margin-top: 5px;
       a{
+        color: #fff;
+      }
+    }
+    .user-name{
+      img{
+        border: 2px solid #81b71a;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      span{
         color: #fff;
       }
     }

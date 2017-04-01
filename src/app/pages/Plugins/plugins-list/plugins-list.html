@@ -1,0 +1,73 @@
+<h1>Список плагинов</h1>
+
+<div class="block no-padding">
+
+  <button class="btn btn-sm btn-primary pull-right" style="margin-bottom: 10  px">
+    <i class="fa fa-plus"></i> Добавить
+  </button>
+
+  <div class="plug_list">
+    <div class="header">
+      <div class="active">
+        Активность
+      </div>
+      <div class="values">
+        Имя
+      </div>
+      <div class="key">
+        Ключ
+      </div>
+      <div class="url">
+        Url
+      </div>
+      <div class="desc">
+        Описание
+      </div>
+    </div>
+
+    <div class="tbody">
+
+      <div class="item">
+        <div class="cell" (click)="edit(item)">
+          <input type="checkbox" checked>
+        </div>
+
+        <div class="cell" (click)="edit(item)">
+          Курс валют ЦБ РФ
+        </div>
+
+        <div class="cell">
+          курс
+        </div>
+        <div class="cell">
+          https://frankbotmind.herokuapp.com/
+        </div>
+        <div class="cell">
+          Возвращает курсы валют на заданную дату
+        </div>
+      </div>
+
+      <div class="item" [routerLink]="['/list']" [routerLinkActive]="['active']">
+        <div class="cell" (click)="edit(item)">
+          <input type="checkbox" checked>
+        </div>
+
+        <div class="cell" (click)="edit(item)">
+          База знаний "Нейзнайка"
+        </div>
+
+        <div class="cell">
+          -
+        </div>
+        <div class="cell">
+          https://neznayka.herokuapp.com
+        </div>
+        <div class="cell">
+          База знаний
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

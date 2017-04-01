@@ -11,10 +11,14 @@ import {SimpleNotificationsModule} from 'angular2-notifications';
 // container
 import { ProductionContainer  } from './pages/DictionaryList/container';
 import { ImportContainer } from './pages/Import/container';
+import { BotsContainer } from './pages/Bots/container';
+import { PluginsContainer } from './pages/Plugins/container';
 
 // components
 import { DictionaryListComponent } from './pages/DictionaryList/dictionary-list';
 import { ImportComponent } from './pages/import/import-form';
+import { BotComponent } from './pages/Bots/add-bot';
+import { PluginsList } from './pages/Plugins/plugins-list';
 
 import { MenuInfoComponent } from './pages/layouts/menuInfo';
 import { TopMenuComponent } from './pages/layouts/topMenu';
@@ -65,9 +69,12 @@ import { TagInputModule } from 'ng2-tag-input';
     AppComponent,
     HomeComponent,
     ProductionContainer,
+    PluginsContainer,
     ImportContainer,
+    BotsContainer,
     DictionaryListComponent,
     ImportComponent,
+    BotComponent,
     MenuInfoComponent,
     TopMenuComponent,
     ButtonSaveComponent,
@@ -75,6 +82,7 @@ import { TagInputModule } from 'ng2-tag-input';
     SnippetComponent,
     ReplaceletterPipe,
     Autosize,
+    PluginsList,
   ],
   providers: [
   ],

@@ -41,6 +41,7 @@ export class DictionaryService {
 
   public updateDictionaryItem(item:DictionaryList):Observable<any> {
     return this.http.put(API_URL + '/update', {
+        id: item.getId(),
         tags: item.getTags(),
         message: item.getMessage(),
       })

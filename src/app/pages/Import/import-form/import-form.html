@@ -1,2 +1,6 @@
-<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".csv">
-<button class="btn btn-primary" (click)="importFile()">Импортировать</button>
+<h1>{{title}}</h1>
+
+<div class="block no-padding" style="display: flex">
+  <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".csv">
+  <button class="btn btn-primary" (click)="importFile()">Импортировать</button>
+</div>

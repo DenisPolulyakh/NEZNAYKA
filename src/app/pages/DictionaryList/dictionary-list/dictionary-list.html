@@ -5,6 +5,7 @@
     <pagination-controls
       (pageChange)="pageChanged($event)"
       previousLabel=""
+      [autoHide]='true'
       nextLabel=""
     >
     </pagination-controls>
@@ -37,7 +38,7 @@
         Значения
       </div>
       <div class="action">
-
+        Действия
       </div>
     </div>
 
@@ -76,10 +77,10 @@
           </div>
         </div>
 
-        <div class="cell action" *ngIf="item.getIsEdit()">
-          <i class="fa fa-floppy-o" (click)="save(item)" title="Сохранить"></i>
-          <i class="fa fa-times" (click)="remove(item)" title="Удалить"></i>
-          <i class="fa fa-sign-out" (click)="cancel(item)" title="Отменить"></i>
+        <div class="cell action">
+          <i class="fa fa-floppy-o" (click)="save(item)" title="Сохранить" *ngIf="item.getIsEdit()"></i>
+          <i class="fa fa-times" (click)="remove(item)" title="Удалить" *ngIf="item.getIsEdit()"></i>
+          <i class="fa fa-sign-out" (click)="cancel(item)" title="Отменить" *ngIf="item.getIsEdit()"></i>
         </div>
       </div>
     </div>
