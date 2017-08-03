@@ -52,18 +52,21 @@
         <div class="cell" (click)="edit(item)">
           <div *ngIf="!item.getIsEdit()">
             <span *ngFor="let tag of item._tags" class="tag">
-              {{tag}}
+              {{tag.tag}}
             </span>
           </div>
 
           <div *ngIf="item.getIsEdit()">
             <tag-input
               [(ngModel)]='item._tags'
-              [editable]='true'
+              [identifyBy]="'id'"
+              [displayBy]="'tag'"
+              [editable]='false'
               [addOnBlur]='true'
               [modelAsStrings]='true'
               secondaryPlaceholder="Введите искомые значения"
               placeholder="+ ТЕГ"
+              [transform]="transformer"
             ></tag-input>
           </div>
         </div>
@@ -73,7 +76,7 @@
             {{ item.getMessage() }}
           </div>
           <div *ngIf="item.getIsEdit()">
-            <input type="text" class="form-control" [(ngModel)]='item._message'>
+            <input type="text" class="form-control" [(ngModel)]='item._value'>
           </div>
         </div>
 

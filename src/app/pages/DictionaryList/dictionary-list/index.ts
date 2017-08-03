@@ -21,7 +21,7 @@ export class DictionaryListComponent implements OnInit {
 
   public currentPage:number = 1;
   public totalItems:number = 0; // total numbar of page not items
-  public maxSize:number = 10; // max page size
+  public maxSize:number = 100; // max page size
 
   public options = {
     timeOut: 5000,
@@ -94,12 +94,20 @@ export class DictionaryListComponent implements OnInit {
     item.setIsEdit(true)
   }
 
+  public transformer(item: string): any {
+    return {'id':null, 'tag':item}
+  }
+
   save(item:DictionaryList) {
     item.getIsNew()
       ? this.dictionaryService.saveDictionaryItem(item)
       .subscribe(
         res => {
           item.setIsEdit(false);
+          item.setIsNew(false);
+          item.setTags(res.message.tags);
+          item.setId(res.message.id);
+          item.setMessage(res.message.value);
         },
         err => {
           this.loadingList = false;

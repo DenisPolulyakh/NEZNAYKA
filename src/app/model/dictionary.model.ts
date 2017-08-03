@@ -1,16 +1,18 @@
 export interface IDictionaryList {
   id:number;
   tags:any;
-  message:string;
+  value:string;
   isEdit:boolean;
   isNew:boolean;
+  tagsAsStringArray:string[];
 }
 
 export class DictionaryList {
 
   private _id:number;
   private _tags:any;
-  private _message:string;
+  private _tagsAsStringArray:string[];
+  private _value:string;
   private _isEdit:boolean;
   private _isNew:boolean;
 
@@ -19,19 +21,32 @@ export class DictionaryList {
   }
 
   getTags():any {
-    return this._tags;
+    return this._tags.map(i => ({'id':i.id, 'tag': i.tag}))
+
   }
 
   setTags(value:any) {
-    this._tags = value;
+    value
+      ? this._tags = value.map(i => ({'id': i.id, 'tag': i.tag}))
+      : []
+  }
+
+  getTagsAsStringArray():any {
+    return this._tagsAsStringArray;
+  }
+
+  setTagsAsStringArray(value:any) {
+    value
+    ? this._tagsAsStringArray = value.map((i)=>(i.tag))
+    : [];
   }
 
   getMessage():string {
-    return this._message;
+    return this._value;
   }
 
   setMessage(value:string) {
-    this._message = value;
+    this._value = value;
   }
 
   getId():any {
@@ -61,10 +76,11 @@ export class DictionaryList {
 
   public deserialize(data:any):DictionaryList {
     this.setTags(data.tags);
-    this.setMessage(data.message);
+    this.setMessage(data.value);
     this.setId(data.id);
     this.setIsEdit(data.isEdit ? true : false);
     this.setIsNew(data.isNew ? true : false);
+    this.setTagsAsStringArray(data.tags);
 
     return this;
   }

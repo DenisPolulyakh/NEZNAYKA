@@ -32,19 +32,23 @@ export class DictionaryService {
 
   public saveDictionaryItem(item:DictionaryList):Observable<any> {
     return this.http.post(API_URL + '/create', {
+      message:{
         tags: item.getTags(),
-        message: item.getMessage(),
-      })
+        value: item.getMessage(),
+      }
+    })
       .map(res => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'))
   }
 
   public updateDictionaryItem(item:DictionaryList):Observable<any> {
     return this.http.put(API_URL + '/update', {
+      message: {
         id: item.getId(),
         tags: item.getTags(),
-        message: item.getMessage(),
-      })
+        value: item.getMessage(),
+      }
+    })
       .map(res => res.json())
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'))
   }
